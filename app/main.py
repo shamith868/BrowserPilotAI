@@ -8,11 +8,13 @@ def main():
 
     print(browser.get_title())
 
-    browser.take_screenshot("homepage.png")
-    print("Screenshot saved successfully!")
+    browser.wait(2000)
 
-    # Using the clean custom wait method now
-    browser.wait(5000)
+    browser.click("text=Next →")
+
+    browser.wait(3000)
+
+    browser.take_screenshot("second_page.png")
 
     browser.close()
 

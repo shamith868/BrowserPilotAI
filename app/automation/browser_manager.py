@@ -1,3 +1,4 @@
+import os
 from playwright.sync_api import sync_playwright
 
 
@@ -14,12 +15,17 @@ class BrowserManager:
     def get_title(self):
         return self.page.title()
 
-    def close(self):
-        self.browser.close()
-        self.playwright.stop()
-
     def take_screenshot(self, filename):
-        self.page.screenshot(path=filename)
+        os.makedirs("screenshots", exist_ok=True)
+        path = os.path.join("screenshots", filename)
+        self.page.screenshot(path=path)
 
     def wait(self, milliseconds):
         self.page.wait_for_timeout(milliseconds)
+
+    def click(self, selector):
+        self.page.click(selector)
+
+    def close(self):
+        self.browser.close()
+        self.playwright.stop()
