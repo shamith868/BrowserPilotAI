@@ -25,6 +25,12 @@ class BrowserManager:
 
     def click(self, selector):
         self.page.click(selector)
+    
+    def type(self, selector, text):
+        self.page.fill(selector, text)
+
+    def press(self, key):
+        self.page.keyboard.press(key)
 
     def close(self):
         self.browser.close()

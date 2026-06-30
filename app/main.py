@@ -4,17 +4,19 @@ from automation.browser_manager import BrowserManager
 def main():
     browser = BrowserManager()
 
-    browser.open("https://quotes.toscrape.com")
-
-    print(browser.get_title())
+    browser.open("https://www.google.com")
 
     browser.wait(2000)
 
-    browser.click("text=Next →")
+    browser.type('textarea[name="q"]', "Playwright Python Tutorial")
+
+    browser.wait(1000)
+
+    browser.press("Enter")
 
     browser.wait(3000)
 
-    browser.take_screenshot("second_page.png")
+    browser.take_screenshot("google_results.png")
 
     browser.close()
 
