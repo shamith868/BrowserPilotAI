@@ -1,5 +1,6 @@
 import os
 from playwright.sync_api import sync_playwright
+from utils.logger import logger
 
 
 class BrowserManager:
@@ -10,6 +11,7 @@ class BrowserManager:
         self.page = self.browser.new_page()
 
     def open(self, url):
+        logger.info(f"Opening {url}")
         self.page.goto(url)
 
     def get_title(self):
@@ -33,5 +35,15 @@ class BrowserManager:
         self.page.keyboard.press(key)
 
     def close(self):
+        logger.info("Closing browser")
         self.browser.close()
         self.playwright.stop()
+
+    def read_text(self, selector):
+        return self.page.locator(selector).inner_text()
+    
+    def get_elements(self, selector):
+        return self.page.locator(selector)
+    
+    def exists(self, selector):
+        return self.page.locator(selector).count() > 0

@@ -1,24 +1,12 @@
-from automation.browser_manager import BrowserManager
+from agent.browser_agent import BrowserAgent
 
 
 def main():
-    browser = BrowserManager()
+    agent = BrowserAgent()
 
-    browser.open("https://www.google.com")
+    agent.scrape_quotes()
 
-    browser.wait(2000)
-
-    browser.type('textarea[name="q"]', "Playwright Python Tutorial")
-
-    browser.wait(1000)
-
-    browser.press("Enter")
-
-    browser.wait(3000)
-
-    browser.take_screenshot("google_results.png")
-
-    browser.close()
+    agent.close()
 
 
 if __name__ == "__main__":
