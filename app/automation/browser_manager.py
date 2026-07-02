@@ -1,4 +1,6 @@
 import os
+import time
+from config import MAX_RETRIES
 from playwright.sync_api import sync_playwright
 from utils.logger import logger
 
@@ -11,9 +13,27 @@ class BrowserManager:
         self.page = self.browser.new_page()
 
     def open(self, url):
-        logger.info(f"Opening {url}")
-        self.page.goto(url)
+        for attempt in range(MAX_RETRIES):
+            try:
+                logger.info(f"Opening {url}")
 
+                self.page.goto(url)
+
+                return
+
+            except Exception as e:
+                logger.error(f"Attempt {attempt + 1} failed: {e}")
+
+                if attempt < MAX_RETRIES - 1:
+                    logger.info("Retrying in 2 seconds...")
+
+                    time.sleep(2)
+
+                else:
+                    logger.critical("Maximum retries reached.")
+
+                    raise
+ 
     def get_title(self):
         return self.page.title()
 

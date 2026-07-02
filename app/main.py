@@ -1,12 +1,13 @@
-from agent.browser_agent import BrowserAgent
+from scrapers.github_scraper import GitHubScraper
 
 
 def main():
-    agent = BrowserAgent()
 
-    agent.scrape_quotes()
+    keyword = input("Enter repository keyword: ")
 
-    agent.close()
+    scraper = GitHubScraper()
+
+    scraper.scrape(keyword)
 
 
 if __name__ == "__main__":

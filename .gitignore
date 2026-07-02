@@ -1,5 +1,9 @@
 .venv/
 __pycache__/
 *.pyc
+
+logs/
+data/
+screenshots/
+
 .env
-.vscode/
