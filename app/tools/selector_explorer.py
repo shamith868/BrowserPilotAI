@@ -11,48 +11,48 @@ class SelectorExplorer:
     def explore(self, url):
 
         self.page.goto(url)
-
         self.page.wait_for_timeout(5000)
 
         print("\n========== PAGE INFORMATION ==========\n")
 
         print("Title:", self.page.title())
-        print("Total Links:", self.page.locator("a").count())
-        print("Total Buttons:", self.page.locator("button").count())
-        print("Total Inputs:", self.page.locator("input").count())
-        print("Total Headings:", self.page.locator("h1, h2, h3, h4, h5").count())
+        print("Links:", self.page.locator("a").count())
+        print("Buttons:", self.page.locator("button").count())
+        print("Inputs:", self.page.locator("input").count())
 
-        keyword = input("\nEnter keyword to search inside links: ").lower()
+        print("\n========== FIRST 15 HEADINGS ==========\n")
 
-        print("\n========== MATCHES ==========\n")
+        headings = self.page.locator("h1, h2, h3")
 
-        links = self.page.locator("a")
+        count = min(15, headings.count())
 
-        found = 0
-
-        for i in range(links.count()):
+        for i in range(count):
 
             try:
-                text = links.nth(i).inner_text().strip()
-                href = links.nth(i).get_attribute("href")
-
-                if keyword in text.lower() or (href and keyword in href.lower()):
-
-                    found += 1
-
-                    print(f"{found}. {text}")
-                    print(f"   {href}\n")
+                print(f"{i+1}. {headings.nth(i).inner_text()}")
 
             except Exception:
                 pass
 
-        if found == 0:
-            print("No matches found.")
+        print("\n========== FIRST 10 ARTICLES ==========\n")
+
+        articles = self.page.locator("article")
+
+        print("Articles found:", articles.count())
+
+        for i in range(min(10, articles.count())):
+
+            print("\n------------------------------")
+
+            try:
+                print(articles.nth(i).inner_text()[:500])
+
+            except Exception:
+                pass
 
         self.page.wait_for_timeout(30000)
 
         self.browser.close()
-
         self.playwright.stop()
 
 

@@ -1,12 +1,15 @@
 import csv
+
+from automation.browser_manager import BrowserManager
 from utils.logger import logger
 from config import BASE_URL, WAIT_TIME, OUTPUT_FILE
 
 
 class QuotesScraper:
 
-    def __init__(self, browser):
-        self.browser = browser
+    def __init__(self):
+
+        self.browser = BrowserManager()
 
     def scrape(self):
 
@@ -53,3 +56,5 @@ class QuotesScraper:
                     break
 
         logger.info("Finished scraping all pages.")
+
+        self.browser.close()

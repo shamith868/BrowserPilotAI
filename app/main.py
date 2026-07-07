@@ -1,13 +1,13 @@
-from scrapers.github_scraper import GitHubScraper
+from agent.ai_agent import AIAgent
 
 
 def main():
 
-    keyword = input("Enter repository keyword: ")
+    agent = AIAgent()
 
-    scraper = GitHubScraper()
+    command = input("What do you want me to do?\n\n> ")
 
-    scraper.scrape(keyword)
+    agent.run(command)
 
 
 if __name__ == "__main__":
