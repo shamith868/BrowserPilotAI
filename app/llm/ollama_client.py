@@ -1,3 +1,4 @@
+import json
 import ollama
 
 
@@ -18,4 +19,17 @@ class OllamaClient:
             ]
         )
 
-        return response["message"]["content"]
+        content = response["message"]["content"]
+
+        # Remove markdown if Gemma returns ```json ... ```
+        content = content.replace("```json", "")
+        content = content.replace("```", "")
+        content = content.strip()
+
+        return content
+
+    def ask_json(self, prompt):
+
+        response = self.ask(prompt)
+
+        return json.loads(response)

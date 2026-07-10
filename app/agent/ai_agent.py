@@ -1,33 +1,57 @@
+from llm.ollama_client import OllamaClient
 from scrapers.github_scraper import GitHubScraper
 from scrapers.quotes_scraper import QuotesScraper
 
 
 class AIAgent:
 
+    def __init__(self):
+        self.ai = OllamaClient()
+
     def run(self, command):
 
-        command = command.lower()
+        prompt = f"""
+You are an AI assistant.
 
-        if "github" in command or "repository" in command:
+Available tools:
+- github
+- quotes
 
-            keyword = command
+Return ONLY valid JSON.
 
-            keyword = keyword.replace("github", "")
-            keyword = keyword.replace("repositories", "")
-            keyword = keyword.replace("repository", "")
-            keyword = keyword.strip()
+Examples:
 
-            if keyword == "":
-                keyword = "python"
+{{
+    "tool": "github",
+    "keyword": "playwright"
+}}
+
+{{
+    "tool": "quotes",
+    "keyword": ""
+}}
+
+User request:
+{command}
+"""
+
+        decision = self.ai.ask_json(prompt)
+
+        print("\nAI Decision:", decision)
+
+        tool = decision["tool"].lower()
+        keyword = decision["keyword"]
+
+        if tool == "github":
 
             scraper = GitHubScraper()
             scraper.scrape(keyword)
 
-        elif "quote" in command:
+        elif tool == "quotes":
 
             scraper = QuotesScraper()
             scraper.scrape()
 
         else:
 
-            print("Sorry, I don't know how to do that yet.")
+            print("Unknown tool:", tool)
